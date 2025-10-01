@@ -60,3 +60,54 @@ ggplot(ames, aes(x = `Sale Price`)) +
 ```
 
 The general pattern is mainly skewed towards the right due to most of the values falling in the range of around 0 to ~2,000,000 for Sale Price with the actual median price being around ~170,000. There are a few outliers that are on the outer end of the graph that have very high values of 20,000,000 and 14,000,000 Sale Price.
+
+
+
+Step 4: pick a variable that might be related to the main variable.
+
+what is the range of that variable? plot. describe the pattern.
+what is the relationship to the main variable? plot a scatterplot, boxplot or facetted barcharts (dependening on the types of variables involved). Describe overall pattern, does this variable describe any oddities discovered in 3? Identify/follow-up on any oddities.
+
+David's Work:
+I chose the variable YearBuilt. Below is the range and histogram of this variable:
+```{r}
+library(classdata)
+library(ggplot2)
+range(ames$YearBuilt, na.rm = TRUE)
+
+ggplot(ames, aes(x = YearBuilt)) + 
+  geom_histogram(binwidth=10) +
+  labs(title = "Histogram of Year Built",
+       x = "Year Built (by decade)",
+       y = "Count")
+
+
+```
+
+The data for YearBuilt is left skewed instead, and has most of its year values ranging from ~1900 to ~2022. No major outliers, all the years of the homes built are in this range.
+
+I will show the relationship between the variables with a scatterplot. One is with outliers and one is without outliers:
+
+```{r}
+library(classdata)
+library(ggplot2)
+
+#with outliers
+ggplot(ames, aes(x = YearBuilt, y = `Sale Price`)) + scale_x_continuous(limits = c(1900, NA)) + geom_point() + labs(title = "Sale Price vs. Year Built (with outliers)",
+       x = "Year Built",
+       y = "Sale Price")
+
+#without outliers
+ggplot(ames, aes(x = YearBuilt, y = `Sale Price`)) +
+  geom_point(alpha = 0.5) +
+  scale_x_continuous(limits = c(1900, NA)) +
+  coord_cartesian(ylim = c(0, 1000000)) +   # only show up to $1M
+  labs(title = "Sale Price vs. Year Built (without outliers)",
+       x = "Year Built",
+       y = "Sale Price")
+
+
+```
+
+
+The overall pattern of the plot without the outliers show a more clear view of a slight positive correlation between year built and sale price. As the year goes up, the sale price seems to go up slightly as well over time, showing that there is a slight relationship between these two variables. The scatterplot that is zoomed out with outliers shows some extreme outliers, as there are a few houses built around ~2000 that are valued up to 20 million (similar to the sale prices I identified being outliers in 3), so when evaluating the overall trend I decided to exclude these values to better evaluate the correlation that exists.
