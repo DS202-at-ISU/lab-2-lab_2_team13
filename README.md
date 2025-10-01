@@ -23,7 +23,6 @@ what variables are there? of what type are the variables? what does each
 variable mean? what do we expect their data range to be?
 
 ``` r
-# your R code here
 library(classdata)
 head(ames)
 ```
@@ -135,3 +134,43 @@ Story Frame, and other variables like Sale Price is a range of numbers.
 Many values have varying ranges depending on their data type, as Sale
 Date seems to have a range of dates between 2017 to 2022 while Acres has
 values from 0 to ~12 acres.
+
+Step 2: is there a variable of special interest or focus?
+
+The variable of highest interest/focus is likely going to be Sale Price
+as it is a defining aspect of a home and its value, and likely many of
+the other variables in the data set will affect this value.
+
+Step 3: start the exploration with the main variable:
+
+which variable is the main variable? what is the range of this variable?
+draw a histogram for a numeric variable or a bar chart, if the variable
+is categorical. what is the general pattern? is there anything odd?
+follow-up on oddities: see 4
+
+The main variable is Sale Price. The range and histogram are shown
+below:
+
+``` r
+library(classdata)
+library(ggplot2)
+range(ames$`Sale Price`)
+```
+
+    ## [1]        0 20500000
+
+``` r
+ggplot(ames, aes(x = `Sale Price`)) + 
+  geom_histogram(binwidth=100000) +
+  labs(title = "Histogram of Sale Prices",
+       x = "Sale Price",
+       y = "Count")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+The general pattern is mainly skewed towards the right due to most of
+the values falling in the range of around 0 to ~2,000,000 for Sale Price
+with the actual median price being around ~170,000. There are a few
+outliers that are on the outer end of the graph that have very high
+values of 20,000,000 and 14,000,000 Sale Price.
