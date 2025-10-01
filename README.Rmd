@@ -17,3 +17,20 @@ Include your answers in this document (Rmd file). Make sure that it knits proper
 
 All submissions to the github repo will be automatically uploaded for grading once the due date is passed.
 Submit a link to your repository on Canvas (only one submission per team) to signal to the instructors that you are done with your submission.
+
+Step 1: inspect the first few lines of the data set:
+
+what variables are there? of what type are the variables? what does each variable mean? what do we expect their data range to be?
+
+```{r}
+# your R code here
+library(classdata)
+head(ames)
+str(ames)
+summary(ames)
+
+```
+Variables: Parcel ID, Address, Style, Occupancy, Sale Date, Sale Price, Multi Sale, YearBuilt, 
+Acres, TotalLivingArea (sf), Bedrooms, FinishedBsmtArea (sf), LotArea (sf), AC, FirePlace, Neighborhood
+
+The types of variables include many categorical and numerical, with value types of Date, chr, and num. Each variable represents either a categorical or numerical value; Style has values like 1 Story Frame, 2 Story Frame, and other variables like Sale Price is a range of numbers. Many values have varying ranges depending on their data type, as Sale Date seems to have a range of dates between 2017 to 2022 while Acres has values from 0 to ~12 acres.
