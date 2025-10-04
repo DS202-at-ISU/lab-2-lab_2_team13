@@ -254,3 +254,82 @@ extreme outliers, as there are a few houses built around ~2000 that are
 valued up to 20 million (similar to the sale prices I identified being
 outliers in 3), so when evaluating the overall trend I decided to
 exclude these values to better evaluate the correlation that exists.
+
+Nayan’s Work:
+
+The variable I decided to use is the acres variable, seeing if my
+hypothesis is correct that the house with a higher number of acres, the
+higher the sale price.
+
+Below is the range and histogram for the lot area variable within the
+data set:
+
+``` r
+library(classdata)
+library(ggplot2)
+
+# Remove rows where Acres < 0 and confirm filtering
+ames_clean <- ames[!is.na(ames$Acres) & ames$Acres >= 0, ]
+
+# Plot histogram only for valid data, zoomed in on 0–1 acre
+ggplot(ames_clean, aes(x = Acres)) +
+  geom_histogram(binwidth = 0.05, fill = "skyblue", color = "black") +
+  coord_cartesian(xlim = c(0,3)) +
+  labs(
+    title = "Histogram of Acres per House",
+    x = "Acres (per House)",
+    y = "Count"
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+The histogram here notes that most of the sales of houses included 0 to
+0.5 acres of land, This histogram removes most if not all outliers to
+make the histogram more readable for the acre ranges in which the most
+sales prices is available for houses. Now, I will see how this affects
+the sales price by creating a scotterplot of sales price against the
+acres variable to see if there is any positive or negative correlation
+between the two variables. Something odd I noticed is that there is some
+still a count for sales of a house that has a negative number of acres,
+which is not possible. Even after removing these rows, the data still
+appears on the histogram.
+
+``` r
+library(classdata)
+library(ggplot2)
+
+ggplot(ames, aes(x = Acres, y = `Sale Price`)) +
+  geom_point(alpha = 0.5) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(0, 1000000)) +
+  labs(title = "Sale Price vs. Acres of Land (without outliers)",
+       x = "Acres of Land",
+       y = "Sale Price")
+```
+
+    ## Warning: Removed 89 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+ggplot(ames, aes(x = Acres, y = `Sale Price`)) +
+  geom_point(alpha = 0.5) +
+  coord_cartesian(ylim = c(0, 1000000)) +
+  labs(title = "Sale Price vs. Acres of Land (with outliers)",
+       x = "Acres of Land",
+       y = "Sale Price")
+```
+
+    ## Warning: Removed 89 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+
+It is clear to see that within the range of 0-0.5 acres of land, the
+sale price tends to have a much stronger positive correlation, as the
+houses with more acres of land tend to have a higher sales price,
+however, when looking at the outliers of sales with more acres of land,
+it is hard to draw a determination of what impact acres has on the sales
+price. This would seem to make sense, as there is likely less housing
+actually built pieces of land which have more acres of land to be sold.
